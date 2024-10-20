@@ -1,0 +1,47 @@
+# Ignore Python bytecode files
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Ignore IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+*~
+
+# Ignore logs
+*.log
+
+# Ignore local environment variables file
+.env
+
+# Ignore Docker-related files
+Dockerfile
+docker-compose.yml
+
+# Ignore other system files
+.DS_Store
+Thumbs.db
+
+# Ignore compiled files and folders
+build/
+dist/
+*.egg-info/
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore other miscellaneous files
+*.db
+*.sqlite3
+*.egg
+*.whl

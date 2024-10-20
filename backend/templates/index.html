@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rule Engine</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <marquee>
+        <h1>Rule Engine</h1>
+        </marquee>
+        <!-- Create Rule Form -->
+        <form id="create-rule-form">
+            <h2>Create Rule</h2>
+            <input type="text" id="rule_name" placeholder="Rule Name" required />
+            <textarea id="rule_string" placeholder="Rule String" required></textarea>
+            <button type="submit">Create Rule</button>
+        </form>
+
+        <!-- Evaluate Rule Form -->
+        <form id="evaluate-rule-form">
+            <h2>Evaluate Rule</h2>
+            <input type="text" id="evaluate_rule_name" placeholder="Rule Name to Evaluate" required />
+            <textarea id="user_data" placeholder="User Data as JSON" required></textarea>
+            <button type="submit">Evaluate Rule</button>
+        </form>
+
+        <!-- Combine Rules Form -->
+        <form id="combine-rule-form">
+            <h2>Combine Rules</h2>
+            <input type="text" id="rules" placeholder="Rule Names (comma-separated)" required />
+            <button type="submit">Combine Rules</button>
+        </form>
+
+        <!-- Output Section -->
+        <h3>Result:</h3>
+        <pre id="result"></pre>
+    </div>
+
+    <script>
+        // Handle Create Rule form submission
+        document.getElementById("create-rule-form").onsubmit = async function (event) {
+            event.preventDefault();
+            const ruleName = document.getElementById("rule_name").value;
+            const ruleString = document.getElementById("rule_string").value;
+
+            const response = await fetch("/create_rule", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ rule_name: ruleName, rule_string: ruleString })
+            });
+
+            const result = await response.json();
+            document.getElementById("result").innerText = JSON.stringify(result, null, 2);
+        };
+
+        // Handle Evaluate Rule form submission
+        document.getElementById("evaluate-rule-form").onsubmit = async function (event) {
+            event.preventDefault();
+            const ruleName = document.getElementById("evaluate_rule_name").value;
+            const userData = JSON.parse(document.getElementById("user_data").value);
+
+            const response = await fetch("/evaluate_rule", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ rule_name: ruleName, data: userData })
+            });
+
+            const result = await response.json();
+            document.getElementById("result").innerText = JSON.stringify(result, null, 2);
+        };
+
+        // Handle Combine Rules form submission
+        document.getElementById("combine-rule-form").onsubmit = async function (event) {
+            event.preventDefault();
+            const rules = document.getElementById("rules").value.split(",").map(rule => rule.trim());
+
+            const response = await fetch("/combine_rules", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ rules: rules })
+            });
+
+            const result = await response.json();
+            document.getElementById("result").innerText = JSON.stringify(result, null, 2);
+        };
+    </script>
+</body>
+</html>
