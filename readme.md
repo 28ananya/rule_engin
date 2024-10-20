@@ -48,3 +48,6 @@ cd <project-directory>
 ## Once the container is running, open your browser and go to:
 
     http://localhost:5000
+## Additionals
+  added string validation (parentheses checker)
+  
